@@ -1,24 +1,23 @@
 # PraxFlow
 
-PraxFlow is a **portable Agent Skills workflow library** for repeatable product engineering across system, protocol, PC, controller, module, hardware, and manifest repositories.
+PraxFlow is a portable Agent Skills workflow library for repeatable product engineering across system, protocol, PC, controller, module, hardware, and manifest repositories.
 
-The canonical implementation lives in `skills/` and follows the open `SKILL.md` Agent Skills model. PraxFlow is not tied to one model vendor or one agent runtime. Agent-specific plugin manifests and install paths are adapters around the same core skills.
-
-## Target agents
-
-PraxFlow is designed to work with Agent Skills-capable tools including:
+PraxFlow intentionally supports **three agent environments only**:
 
 - OpenAI Codex
 - Claude Code
-- Cursor
-- Gemini CLI
-- GitHub Copilot
-- OpenCode
-- Cline
-- Roo Code
-- Windsurf (adapter target; verify against the version used in your environment)
+- DeepSeek Harness
 
-Where an agent supports the shared `.agents/skills` path, PraxFlow prefers it to reduce duplicated installations.
+The canonical workflow logic lives in `skills/` as standard `SKILL.md` bundles. Agent-specific packaging is only an adapter around the same core skills.
+
+## DeepSeek support: two different meanings
+
+PraxFlow distinguishes the DeepSeek **agent runtime** from the DeepSeek **model/API**:
+
+- **DeepSeek Harness** is a supported agent runtime and can discover PraxFlow skills from Agent Skills directories.
+- **DeepSeek API / DeepSeek models** are model backends. They do not need a separate PraxFlow skill format. PraxFlow should work when Codex, Claude Code-compatible workflows, or DeepSeek Harness use DeepSeek models as the reasoning backend.
+
+In other words, PraxFlow is runtime-portable across Codex, Claude Code, and DeepSeek Harness, and model-provider-neutral inside those runtimes.
 
 ## Skills
 
@@ -34,37 +33,44 @@ Where an agent supports the shared `.agents/skills` path, PraxFlow prefers it to
 
 ## Install
 
-Clone once and install all skills into a compatible user-level Agent Skills directory:
+Clone once:
 
 ```bash
 git clone https://github.com/pinnacle-x/PraxFlow.git
 cd PraxFlow
-python scripts/install.py --agent generic --scope user
 ```
 
-Or choose an agent-specific target:
+Install for Codex:
+
+```bash
+python scripts/install.py --agent codex --scope user
+```
+
+Install for Claude Code:
 
 ```bash
 python scripts/install.py --agent claude --scope user
-python scripts/install.py --agent cursor --scope user
-python scripts/install.py --agent gemini --scope user
-python scripts/install.py --agent copilot --scope user
-python scripts/install.py --agent opencode --scope user
 ```
 
-See `docs/installation.md` for project-scope installs, selected skills, link mode, and agent-native alternatives.
+Install for DeepSeek Harness:
+
+```bash
+python scripts/install.py --agent deepseek --scope user
+```
+
+See `docs/installation.md` for project-scope installs, selected skills, link mode, and runtime-specific notes.
 
 ## Packaging model
 
 ```text
-skills/                         <- canonical, agent-neutral workflow logic
+skills/                         <- canonical workflow logic shared by all supported runtimes
 .codex-plugin/plugin.json       <- Codex packaging adapter
 .claude-plugin/plugin.json      <- Claude Code packaging adapter
-scripts/install.py              <- filesystem installer for multiple agents
-docs/portability.md             <- rules that keep core skills vendor-neutral
+scripts/install.py              <- Codex / Claude Code / DeepSeek Harness installer
+docs/portability.md             <- three-runtime compatibility contract
 ```
 
-Agent-specific features must not fork the workflow semantics in `skills/`.
+DeepSeek Harness does not require a PraxFlow-specific plugin manifest when loading the shared Agent Skills format.
 
 ## Workflow
 
@@ -73,8 +79,9 @@ See:
 - `docs/workflow.md` — end-to-end product workflow
 - `docs/source-of-truth.md` — repository ownership rules
 - `docs/repository-roles.md` — system/protocol/PC/controller/module/manifest responsibilities
-- `docs/installation.md` — cross-agent installation
+- `docs/installation.md` — Codex / Claude Code / DeepSeek Harness installation
 - `docs/portability.md` — compatibility contract
+- `docs/deepseek.md` — DeepSeek Harness vs DeepSeek API/model-backend support
 - `docs/integration-with-general-skills.md` — optional integration with TDD, grilling, planning, review, and similar general engineering skills
 
 ## Status
