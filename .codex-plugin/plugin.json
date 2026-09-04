@@ -1,7 +1,7 @@
 {
   "name": "praxflow",
-  "version": "0.1.0",
-  "description": "Product-level engineering workflow skills for multi-repository Codex projects.",
+  "version": "0.2.0",
+  "description": "Codex packaging adapter for the portable PraxFlow Agent Skills library.",
   "author": {
     "name": "pinnacle-x",
     "url": "https://github.com/pinnacle-x"
@@ -9,12 +9,12 @@
   "homepage": "https://github.com/pinnacle-x/PraxFlow",
   "repository": "https://github.com/pinnacle-x/PraxFlow",
   "license": "MIT",
-  "keywords": ["codex", "skills", "multi-repo", "engineering", "pdf", "protocol", "manifest"],
+  "keywords": ["agent-skills", "codex", "multi-repo", "engineering", "pdf", "protocol", "manifest"],
   "skills": "./skills/",
   "interface": {
     "displayName": "PraxFlow",
-    "shortDescription": "Repeatable product engineering workflows for multi-repository projects",
-    "longDescription": "PraxFlow adds repository bootstrap, PDF ingestion, system discovery, specification validation, protocol validation, cross-repository interface change control, system verification, and manifest release workflows to Codex.",
+    "shortDescription": "Portable product engineering workflows for multi-repository projects",
+    "longDescription": "PraxFlow provides agent-neutral repository bootstrap, PDF ingestion, system discovery, specification validation, protocol validation, cross-repository interface change control, system verification, and manifest release workflows. This manifest only packages the shared skills for Codex.",
     "developerName": "pinnacle-x",
     "category": "Developer Tools",
     "capabilities": ["Read", "Write", "Interactive"],
