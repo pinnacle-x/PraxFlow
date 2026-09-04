@@ -1,0 +1,29 @@
+{
+  "name": "praxflow",
+  "version": "0.1.0",
+  "description": "Product-level engineering workflow skills for multi-repository Codex projects.",
+  "author": {
+    "name": "pinnacle-x",
+    "url": "https://github.com/pinnacle-x"
+  },
+  "homepage": "https://github.com/pinnacle-x/PraxFlow",
+  "repository": "https://github.com/pinnacle-x/PraxFlow",
+  "license": "MIT",
+  "keywords": ["codex", "skills", "multi-repo", "engineering", "pdf", "protocol", "manifest"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "PraxFlow",
+    "shortDescription": "Repeatable product engineering workflows for multi-repository projects",
+    "longDescription": "PraxFlow adds repository bootstrap, PDF ingestion, system discovery, specification validation, protocol validation, cross-repository interface change control, system verification, and manifest release workflows to Codex.",
+    "developerName": "pinnacle-x",
+    "category": "Developer Tools",
+    "capabilities": ["Read", "Write", "Interactive"],
+    "websiteURL": "https://github.com/pinnacle-x/PraxFlow",
+    "defaultPrompt": [
+      "Bootstrap this repository with PraxFlow.",
+      "Ingest the PDFs in input/ with source traceability.",
+      "Discover the system contexts and unresolved decisions.",
+      "Validate this protocol specification before implementation."
+    ]
+  }
+}
