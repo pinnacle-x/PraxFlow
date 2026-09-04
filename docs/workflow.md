@@ -1,10 +1,14 @@
 # PraxFlow Workflow
 
-PraxFlow coordinates product-level engineering across multiple independent Git repositories. It complements, rather than replaces, general engineering skills such as design review, specification, TDD, implementation, diagnosis, and code review.
+PraxFlow coordinates product-level engineering across multiple independent Git repositories. It complements, rather than replaces, general engineering capabilities such as design review, specification, TDD, implementation, diagnosis, and code review.
 
 ## 1. Workstation setup
 
-Install general engineering skills globally once. Install PraxFlow as a Codex skill-only plugin. Do not duplicate the same general skills into every product repository unless a project intentionally pins them.
+Install PraxFlow once using either a shared Agent Skills directory or an agent-specific adapter. Do not duplicate the same canonical skills into every product repository unless a project intentionally pins them.
+
+See `docs/installation.md` for Codex, Claude Code, Cursor, Gemini CLI, GitHub Copilot, OpenCode, Cline, Roo Code, and other Agent Skills-capable environments.
+
+Optional general engineering skill packs may also be installed globally. PraxFlow does not require one specific pack.
 
 ## 2. Product workspace
 
@@ -27,9 +31,9 @@ Later, Android `repo`/manifest may populate the same directory layout. Each chil
 
 For every new repository:
 
-1. Run the general agent setup skill (for example `setup-matt-pocock-skills`) once for that repository.
+1. Run the environment's normal repository-agent setup, if one exists.
 2. Run `praxflow-repo-bootstrap` with the repository role.
-3. Run `writing-for-agents` or equivalent to review `AGENTS.md` without adding speculative product facts.
+3. Review `AGENTS.md` with the agent's native capability or a general writing-for-agents skill without adding speculative product facts.
 
 Key output: repository-specific `AGENTS.md` plus durable directory scaffolding.
 
@@ -73,13 +77,15 @@ docs/system/OPEN_DECISIONS.md
 
 The skill classifies unresolved decisions as LOW, MEDIUM, HIGH, or CRITICAL.
 
-## 7. Conditionally use Grill / deep design review
+## 7. Conditionally use a deep design review
 
-Do not Grill every task.
+Do not run a design interview for every task.
 
-If `OPEN_DECISIONS.md` contains HIGH or CRITICAL decisions, present them to the user and recommend `/grill-with-docs`. Human approval is required to enter that design-review mode.
+If `OPEN_DECISIONS.md` contains HIGH or CRITICAL decisions, present them to the user and recommend an interactive deep-design review. Human approval is required before entering that review mode.
 
-Typical Grill candidates:
+If the environment provides a grilling skill such as `grill-with-docs`, it is one compatible implementation. Otherwise use the agent's native brainstorming/planning capability or another review skill.
+
+Typical deep-review candidates:
 
 - ownership of a real-time control loop
 - behavior after PC/controller/module disconnection
@@ -87,15 +93,17 @@ Typical Grill candidates:
 - public protocol compatibility strategy
 - cross-repository responsibility boundaries
 
-Routine facts already defined by source documents do not require Grill.
+Routine facts already defined by source documents do not require a deep review.
 
 Confirmed domain terms may create/update `CONTEXT.md`; significant hard-to-reverse decisions may create ADRs under `docs/adr/`.
 
 ## 8. Create the specification source
 
-Use the general specification skill (for example `/to-spec`) after important decisions are resolved. The canonical upstream spec may live in a tracker issue or another configured specification surface.
+Use the environment's specification/planning capability after important decisions are resolved. The canonical upstream spec may live in a tracker issue, reviewed design artifact, or another configured specification surface.
 
-Do not duplicate its semantics manually.
+A companion skill such as `to-spec` may be used when installed, but PraxFlow does not require it.
+
+Do not duplicate the canonical spec's semantics manually.
 
 ## 9. Materialize repository-local specs
 
@@ -173,11 +181,11 @@ Production implementation must not begin from an unapproved spec.
 
 ## 12. Implement
 
-For a large approved spec, use a ticket decomposition skill (for example `/to-tickets`) and create a feature branch before implementation.
+For a large approved spec, use the environment's task-decomposition capability, then create a feature branch before implementation.
 
-Then use the general implementation skill (for example `/implement #ticket`). The implementation layer should perform TDD where appropriate, build/test, code review, and commits according to the repository's own rules.
+Use the agent's implementation/TDD/review capabilities according to repository rules. A compatible general skill pack may provide commands such as ticket decomposition, implementation, TDD, and code review, but PraxFlow does not require specific command names.
 
-For a small, already-clear behavior, direct `/tdd` is enough; do not re-run Grill/specification for every atomic task.
+For a small, already-clear behavior, direct TDD or a focused implementation task is enough; do not re-run design/specification for every atomic task.
 
 ## 13. Cross-repository public interface changes
 
@@ -236,9 +244,9 @@ praxflow-pdf-ingest
   ↓
 praxflow-system-discovery (system repo)
   ↓
-HIGH/CRITICAL decisions? ─ yes → human-approved Grill
+HIGH/CRITICAL decisions? ─ yes → human-approved deep design review
   ↓ no / resolved
-specification
+canonical specification
   ↓
 praxflow-spec-materialize
   ↓
