@@ -4,15 +4,9 @@ PraxFlow coordinates product-level engineering across multiple independent Git r
 
 ## 1. Workstation setup
 
-Install PraxFlow once for the agent runtime you actually use:
+Install PraxFlow once using either a shared Agent Skills directory or an agent-specific adapter. Do not duplicate the same canonical skills into every product repository unless a project intentionally pins them.
 
-```bash
-python scripts/install.py --agent codex --scope user
-python scripts/install.py --agent claude --scope user
-python scripts/install.py --agent deepseek --scope user
-```
-
-Only one command is normally needed for each runtime installed on the workstation. `deepseek` means DeepSeek Harness. If Codex is configured to use DeepSeek API/models as its backend, install PraxFlow for `codex`; the model provider does not require a second skill installation.
+See `docs/installation.md` for Codex, Claude Code, Cursor, Gemini CLI, GitHub Copilot, OpenCode, Cline, Roo Code, and other Agent Skills-capable environments.
 
 Optional general engineering skill packs may also be installed globally. PraxFlow does not require one specific pack.
 

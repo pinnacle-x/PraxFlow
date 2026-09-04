@@ -13,17 +13,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - name: Validate canonical skill core
+      - name: Validate portable skill core
         run: python scripts/validate_portability.py
-      - name: Smoke-test Codex install
+      - name: Smoke-test generic user install
         run: |
-          HOME="$RUNNER_TEMP/codex-home" python scripts/install.py --agent codex --scope user
-          test -f "$RUNNER_TEMP/codex-home/.agents/skills/praxflow-pdf-ingest/SKILL.md"
-      - name: Smoke-test Claude Code install
-        run: |
-          HOME="$RUNNER_TEMP/claude-home" python scripts/install.py --agent claude --scope user
-          test -f "$RUNNER_TEMP/claude-home/.claude/skills/praxflow-pdf-ingest/SKILL.md"
-      - name: Smoke-test DeepSeek Harness install
-        run: |
-          HOME="$RUNNER_TEMP/deepseek-home" python scripts/install.py --agent deepseek --scope user
-          test -f "$RUNNER_TEMP/deepseek-home/.agents/skills/praxflow-pdf-ingest/SKILL.md"
+          HOME="$RUNNER_TEMP/praxflow-home" python scripts/install.py --agent generic --scope user
+          test -f "$RUNNER_TEMP/praxflow-home/.agents/skills/praxflow-pdf-ingest/SKILL.md"

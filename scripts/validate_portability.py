@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Validate the canonical PraxFlow Agent Skills core.
+"""Validate the portable PraxFlow Agent Skills core.
 
-The core must remain portable across the three supported runtimes:
-Codex, Claude Code, and DeepSeek Harness.
+This intentionally avoids third-party dependencies so it can run in CI and on
+fresh developer machines.
 """
 
 from __future__ import annotations
@@ -13,13 +13,15 @@ from pathlib import Path
 
 
 NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
-RUNTIME_MARKERS = {
+VENDOR_MARKERS = {
     "${CLAUDE_SKILL_DIR}": "Claude-specific skill directory variable",
     ".claude/skills": "Claude-specific install path",
+    ".cursor/skills": "Cursor-specific install path",
+    ".gemini/skills": "Gemini-specific install path",
+    ".opencode/skills": "OpenCode-specific install path",
     ".codex/skills": "Codex-specific install path",
-    ".dsh/skills": "DeepSeek Harness-specific install path",
-    "ctx.skills": "DeepSeek Harness service API",
-    "ctx.tools": "DeepSeek Harness service API",
+    ".windsurf/skills": "Windsurf-specific install path",
+    "activate_skill": "Gemini-specific activation API",
 }
 
 
@@ -82,14 +84,13 @@ def main() -> int:
         elif len(description) > 1024:
             errors.append(f"{skill_dir.name}: description exceeds 1024 characters")
 
-        for marker, reason in RUNTIME_MARKERS.items():
+        for marker, reason in VENDOR_MARKERS.items():
             if marker in text:
                 warnings.append(
                     f"{skill_dir.name}: canonical SKILL.md contains {reason}: {marker}"
                 )
 
     print(f"Validated {len(skills)} PraxFlow skill directories")
-    print("Supported runtimes: Codex, Claude Code, DeepSeek Harness")
     for warning in warnings:
         print(f"WARNING: {warning}")
     for error in errors:
@@ -97,7 +98,7 @@ def main() -> int:
 
     if errors:
         return 1
-    print("Three-runtime core validation: PASS")
+    print("Portable core validation: PASS")
     return 0
 
 
