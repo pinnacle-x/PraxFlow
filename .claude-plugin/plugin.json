@@ -1,0 +1,11 @@
+{
+  "name": "praxflow",
+  "version": "0.2.0",
+  "description": "Portable product-engineering Agent Skills for multi-repository projects.",
+  "author": {
+    "name": "pinnacle-x"
+  },
+  "homepage": "https://github.com/pinnacle-x/PraxFlow",
+  "repository": "https://github.com/pinnacle-x/PraxFlow",
+  "license": "MIT"
+}
