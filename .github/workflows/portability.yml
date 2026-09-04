@@ -1,0 +1,21 @@
+name: Portability
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate-agent-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Validate portable skill core
+        run: python scripts/validate_portability.py
+      - name: Smoke-test generic user install
+        run: |
+          HOME="$RUNNER_TEMP/praxflow-home" python scripts/install.py --agent generic --scope user
+          test -f "$RUNNER_TEMP/praxflow-home/.agents/skills/praxflow-pdf-ingest/SKILL.md"
