@@ -35,9 +35,9 @@ Analyze existing product evidence without inventing architecture. This skill sep
 - `HIGH`: cross-repository, public-interface, real-time, compatibility, or expensive-to-reverse choice.
 - `CRITICAL`: safety, hazardous behavior, irreversible product behavior, or system integrity decision requiring explicit human approval.
 
-## Grill recommendation
+## Deep-design review recommendation
 
-For each `HIGH` or `CRITICAL` item, recommend `/grill-with-docs` (or equivalent deep design review) but do not invoke it automatically.
+For each `HIGH` or `CRITICAL` item, recommend an interactive deep-design review, but do not start one automatically. If the current environment has a compatible grilling/design-review skill (for example `grill-with-docs`), it may be offered as an implementation of that review step. Keep the PraxFlow workflow independent of any one companion skill pack.
 
 ## Outputs
 
