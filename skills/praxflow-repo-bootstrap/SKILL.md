@@ -24,7 +24,7 @@ If the role cannot be inferred safely, ask once.
 
 - The current directory is a Git repository.
 - Preserve an existing `AGENTS.md`; edit it instead of replacing unrelated rules.
-- If Matt Pocock setup metadata already exists under `docs/agents/`, preserve it.
+- Preserve metadata created by other installed engineering-skill packs or repository tooling unless it conflicts with an explicit PraxFlow requirement.
 
 ## Actions
 
