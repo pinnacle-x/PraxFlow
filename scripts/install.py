@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Install PraxFlow Agent Skills for several popular coding agents.
+"""Install PraxFlow Agent Skills for Codex, Claude Code, or DeepSeek Harness.
 
 The canonical skills always come from ../skills. This installer only chooses a
-destination path and copies or links the selected skill directories.
+supported runtime destination and copies or links the selected skill bundles.
 """
 
 from __future__ import annotations
@@ -16,19 +16,9 @@ from pathlib import Path
 
 
 TARGETS = {
-    "generic": {"user": "~/.agents/skills", "project": ".agents/skills"},
     "codex": {"user": "~/.agents/skills", "project": ".agents/skills"},
     "claude": {"user": "~/.claude/skills", "project": ".claude/skills"},
-    "cursor": {"user": "~/.agents/skills", "project": ".agents/skills"},
-    "gemini": {"user": "~/.agents/skills", "project": ".agents/skills"},
-    "copilot": {"user": "~/.agents/skills", "project": ".agents/skills"},
-    "opencode": {"user": "~/.agents/skills", "project": ".agents/skills"},
-    "cline": {"user": "~/.agents/skills", "project": ".agents/skills"},
-    "roo": {"user": "~/.agents/skills", "project": ".agents/skills"},
-    "windsurf": {
-        "user": "~/.codeium/windsurf/skills",
-        "project": ".windsurf/skills",
-    },
+    "deepseek": {"user": "~/.agents/skills", "project": ".agents/skills"},
 }
 
 
@@ -92,8 +82,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--agent",
         choices=sorted(TARGETS),
-        default="generic",
-        help="Agent integration target (default: generic shared Agent Skills path).",
+        required=True,
+        help="Supported agent runtime: codex, claude, or deepseek.",
     )
     parser.add_argument(
         "--scope",
@@ -169,10 +159,10 @@ def main() -> int:
     print()
     print(f"PraxFlow installed for target '{args.agent}' in: {root}")
     print(f"Skills installed: {len(installed)}")
-    if args.agent == "windsurf":
+    if args.agent == "deepseek":
         print(
-            "Note: Windsurf is maintained as an adapter target; verify discovery with "
-            "the Windsurf version used in your environment."
+            "DeepSeek target means DeepSeek Harness. DeepSeek API/models used behind another "
+            "agent runtime do not require a separate skill installation."
         )
     return 0
 
