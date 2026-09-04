@@ -1,80 +1,120 @@
 # Installing PraxFlow
 
-PraxFlow is **Agent Skills first**. The canonical, vendor-neutral skills live in `skills/` and follow the `SKILL.md` Agent Skills format. Agent-specific plugin manifests are adapters, not the source of truth.
+PraxFlow supports three agent environments:
 
-## Recommended installation model
+- OpenAI Codex
+- Claude Code
+- DeepSeek Harness
 
-Clone PraxFlow once, then install or link the canonical `skills/` directories into the skill directory used by your agent.
+The canonical skills live in `skills/` and use the portable `SKILL.md` Agent Skills format. Runtime-specific manifests and install paths are adapters only.
+
+## Clone once
 
 ```bash
 git clone https://github.com/pinnacle-x/PraxFlow.git
 cd PraxFlow
-python scripts/install.py --agent generic --scope user
 ```
 
-The generic target installs into `~/.agents/skills`, which is a shared compatibility location supported by several modern agents.
+## Codex
 
-Use project scope when the skills should travel with one repository:
+User scope:
 
 ```bash
-python scripts/install.py --agent generic --scope project --project /path/to/project
+python scripts/install.py --agent codex --scope user
 ```
 
-Use `--mode link` while developing PraxFlow so edits are visible without reinstalling:
+Project scope:
 
 ```bash
-python scripts/install.py --agent cursor --scope user --mode link
+python scripts/install.py --agent codex --scope project --project /path/to/project
 ```
 
-On Windows, creating symbolic links may require Developer Mode or elevated privileges. Use the default `copy` mode if linking is unavailable.
+Default destinations:
 
-## Supported targets
+- user: `~/.agents/skills`
+- project: `.agents/skills`
 
-| Target | User scope | Project scope | Notes |
-|---|---|---|---|
-| `generic` | `~/.agents/skills` | `.agents/skills` | Preferred portable target when the agent supports the shared Agent Skills path. |
-| `codex` | `~/.agents/skills` | `.agents/skills` | Direct skill install. PraxFlow also ships `.codex-plugin/plugin.json` as a Codex plugin adapter. |
-| `claude` | `~/.claude/skills` | `.claude/skills` | Claude Code Agent Skills. PraxFlow also ships `.claude-plugin/plugin.json`. |
-| `cursor` | `~/.agents/skills` | `.agents/skills` | Cursor officially supports the shared `.agents/skills` path. |
-| `gemini` | `~/.agents/skills` | `.agents/skills` | Gemini CLI supports `.agents/skills` as an interoperable alias. |
-| `copilot` | `~/.agents/skills` | `.agents/skills` | GitHub Copilot supports the shared Agent Skills path. |
-| `opencode` | `~/.agents/skills` | `.agents/skills` | OpenCode supports `.agents/skills` as a compatibility source. |
-| `cline` | `~/.agents/skills` | `.agents/skills` | Cline supports Agent Skills and the shared project layout. |
-| `roo` | `~/.agents/skills` | `.agents/skills` | Roo Code supports the shared cross-agent path. |
-| `windsurf` | `~/.codeium/windsurf/skills` | `.windsurf/skills` | Adapter target; verify behavior against the Windsurf version used in your environment. |
+PraxFlow also ships `.codex-plugin/plugin.json` as a Codex packaging adapter.
 
-The installer intentionally copies the same canonical skill directories for every target. PraxFlow does not maintain separate skill logic per agent.
+## Claude Code
 
-## Agent-native alternatives
-
-Some agents have their own native installer or plugin system. Use those when convenient, while keeping `skills/` as the canonical content.
-
-### Claude Code
-
-Claude Code can load project skills from `.claude/skills/` and user skills from `~/.claude/skills/`. Its plugin system also discovers `skills/` in a plugin root. PraxFlow includes a Claude plugin manifest so a future Claude marketplace/install flow can use the same core skills.
-
-### Cursor
-
-Cursor automatically discovers Agent Skills from `.agents/skills/` and `.cursor/skills/`. Installing PraxFlow with the shared `.agents` target avoids a Cursor-only copy.
-
-### Gemini CLI
-
-Gemini CLI supports `~/.agents/skills/` and `.agents/skills/` aliases in addition to Gemini-specific paths. It also provides `gemini skills install` and `gemini skills link` commands.
-
-### GitHub Copilot
-
-GitHub Copilot supports project skills in `.agents/skills/` (as well as GitHub- and Claude-specific skill directories) and personal skills in `~/.agents/skills/`.
-
-### OpenCode
-
-OpenCode discovers `.agents/skills/` directly, or can be configured with an explicit `skills` source pointing to the PraxFlow `skills/` directory.
-
-## Installing only selected skills
-
-Repeat `--skill` to select a subset:
+User scope:
 
 ```bash
-python scripts/install.py --agent generic --scope user \
+python scripts/install.py --agent claude --scope user
+```
+
+Project scope:
+
+```bash
+python scripts/install.py --agent claude --scope project --project /path/to/project
+```
+
+Default destinations:
+
+- user: `~/.claude/skills`
+- project: `.claude/skills`
+
+PraxFlow also ships `.claude-plugin/plugin.json` so the same canonical `skills/` can be packaged through Claude Code's plugin mechanism.
+
+## DeepSeek Harness
+
+User scope:
+
+```bash
+python scripts/install.py --agent deepseek --scope user
+```
+
+Project scope:
+
+```bash
+python scripts/install.py --agent deepseek --scope project --project /path/to/project
+```
+
+Default destinations:
+
+- user: `~/.agents/skills`
+- project: `.agents/skills`
+
+DeepSeek Harness can consume standard Agent Skills bundles directly. PraxFlow therefore does not need a separate DeepSeek plugin manifest for ordinary skill discovery.
+
+A DeepSeek Harness deployment may also use a native `.dsh/skills` project location when that is preferable. PraxFlow's installer uses `.agents/skills` by default because it is also compatible with Codex and avoids maintaining duplicate skill copies on machines that use both runtimes.
+
+## DeepSeek API / model backend
+
+`--agent deepseek` means **DeepSeek Harness**, not the DeepSeek HTTP API by itself.
+
+DeepSeek API/models are model providers, not skill-discovery runtimes. If Codex or another supported harness is configured to use DeepSeek as its model backend, install PraxFlow for that agent runtime exactly as normal. No second PraxFlow installation is required for the model provider.
+
+Examples:
+
+```text
+Codex + DeepSeek API
+  -> install PraxFlow for codex
+
+DeepSeek Harness + DeepSeek model
+  -> install PraxFlow for deepseek
+
+Claude Code-compatible workflow + DeepSeek backend
+  -> install PraxFlow for the Claude Code runtime layer
+```
+
+## Link mode for PraxFlow development
+
+Use `--mode link` while editing PraxFlow itself:
+
+```bash
+python scripts/install.py --agent codex --scope user --mode link
+```
+
+On Windows, directory symlinks may require Developer Mode or elevated privileges. Use the default `copy` mode when linking is unavailable.
+
+## Install selected skills only
+
+Repeat `--skill`:
+
+```bash
+python scripts/install.py --agent codex --scope user \
   --skill praxflow-pdf-ingest \
   --skill praxflow-system-discovery
 ```
@@ -85,11 +125,13 @@ For copy-mode installs:
 
 ```bash
 git pull
-python scripts/install.py --agent generic --scope user --force
+python scripts/install.py --agent codex --scope user --force
 ```
 
-For link-mode installs, `git pull` is sufficient because the installed paths point back to the checkout.
+For link-mode installs, `git pull` is normally sufficient.
 
-## Portability policy
+## Supported-target policy
 
-Before adding an agent-specific feature to a canonical skill, read `docs/portability.md`. Agent-specific metadata, hooks, commands, or UI integration belong in an adapter layer; workflow semantics belong in `skills/`.
+PraxFlow deliberately does not promise installation or compatibility for every coding agent. New runtime adapters should be added only when there is a concrete need and a maintained test path.
+
+The supported compatibility contract is defined in `docs/portability.md`.
