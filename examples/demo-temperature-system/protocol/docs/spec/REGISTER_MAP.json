@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "registers": [
+    {
+      "name": "CurrentTemperature",
+      "address": "0x0100",
+      "type": "int16",
+      "scale": 0.1,
+      "unit": "degC",
+      "access": "R",
+      "source_file": "SyntheticProtocol.pdf",
+      "source_page": 3
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+<manifest>
+  <!-- Synthetic example. Real releases must pin revisions verified by PraxFlow system verification. -->
+  <project name="demo-system.git" path="system" revision="1111111111111111111111111111111111111111" />
+  <project name="demo-protocol.git" path="protocol" revision="2222222222222222222222222222222222222222" />
+  <project name="demo-pc.git" path="pc" revision="3333333333333333333333333333333333333333" />
+  <project name="demo-controller.git" path="controller" revision="4444444444444444444444444444444444444444" />
+</manifest>

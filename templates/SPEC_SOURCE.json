@@ -1,0 +1,7 @@
+{
+  "source_type": "issue|file|tracker|other",
+  "source_identifier": "TODO",
+  "repository_role": "system|protocol|pc|controller|module|hardware|manifest",
+  "status": "draft|approved",
+  "materialized_at": null
+}
