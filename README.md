@@ -1,24 +1,21 @@
 # PraxFlow
 
-PraxFlow is a **portable Agent Skills workflow library** for repeatable product engineering across system, protocol, PC, controller, module, hardware, and manifest repositories.
+PraxFlow is a portable Agent Skills workflow library for repeatable product engineering across system, protocol, PC, controller, module, hardware, and manifest repositories.
 
-The canonical implementation lives in `skills/` and follows the open `SKILL.md` Agent Skills model. PraxFlow is not tied to one model vendor or one agent runtime. Agent-specific plugin manifests and install paths are adapters around the same core skills.
+The canonical workflow logic lives in `skills/`. Agent-specific packaging is an adapter around the same core skills.
 
-## Target agents
+## Start here
 
-PraxFlow is designed to work with Agent Skills-capable tools including:
-
-- OpenAI Codex
-- Claude Code
-- Cursor
-- Gemini CLI
-- GitHub Copilot
-- OpenCode
-- Cline
-- Roo Code
-- Windsurf (adapter target; verify against the version used in your environment)
-
-Where an agent supports the shared `.agents/skills` path, PraxFlow prefers it to reduce duplicated installations.
+- [Quick start](docs/quick-start.md) — exact commands for the first project run
+- [Full workflow](docs/workflow.md) — canonical end-to-end process
+- [Skill reference](docs/skill-reference.md) — what each PraxFlow skill reads, does, and writes
+- [Decision gates](docs/decision-gates.md) — when human approval or deep design review is required
+- [Cross-repository workflow](docs/cross-repo-workflow.md) — owner-first public interface changes
+- [Repository roles](docs/repository-roles.md) — system/protocol/PC/controller/module/manifest ownership
+- [Source of truth](docs/source-of-truth.md) — evidence, specs, ADRs, and implementation ownership
+- [Examples](examples/README.md) — synthetic product examples and expected outputs
+- [Templates](templates/) — reusable output formats
+- [Exported documents](docs/exports/README.md) — Word/PDF-style release documents
 
 ## Skills
 
@@ -32,51 +29,20 @@ Where an agent supports the shared `.agents/skills` path, PraxFlow prefers it to
 - `praxflow-system-verify`
 - `praxflow-manifest-release`
 
-## Install
-
-Clone once and install all skills into a compatible user-level Agent Skills directory:
-
-```bash
-git clone https://github.com/pinnacle-x/PraxFlow.git
-cd PraxFlow
-python scripts/install.py --agent generic --scope user
-```
-
-Or choose an agent-specific target:
-
-```bash
-python scripts/install.py --agent claude --scope user
-python scripts/install.py --agent cursor --scope user
-python scripts/install.py --agent gemini --scope user
-python scripts/install.py --agent copilot --scope user
-python scripts/install.py --agent opencode --scope user
-```
-
-See `docs/installation.md` for project-scope installs, selected skills, link mode, and agent-native alternatives.
-
-## Packaging model
+## Repository model
 
 ```text
-skills/                         <- canonical, agent-neutral workflow logic
-.codex-plugin/plugin.json       <- Codex packaging adapter
-.claude-plugin/plugin.json      <- Claude Code packaging adapter
-scripts/install.py              <- filesystem installer for multiple agents
-docs/portability.md             <- rules that keep core skills vendor-neutral
+PraxFlow/
+├── skills/       # executable workflow methods
+├── docs/         # canonical process and reference documentation
+├── examples/     # synthetic, reviewable examples
+├── templates/    # reusable output schemas/templates
+├── scripts/      # installers and validators
+└── tests/        # future regression tests
 ```
 
-Agent-specific features must not fork the workflow semantics in `skills/`.
+Markdown files under `docs/` are the maintained source of truth for the process. Binary Word/PDF exports under `docs/exports/` are publication artifacts and may carry explicit version numbers.
 
-## Workflow
+## Installation
 
-See:
-
-- `docs/workflow.md` — end-to-end product workflow
-- `docs/source-of-truth.md` — repository ownership rules
-- `docs/repository-roles.md` — system/protocol/PC/controller/module/manifest responsibilities
-- `docs/installation.md` — cross-agent installation
-- `docs/portability.md` — compatibility contract
-- `docs/integration-with-general-skills.md` — optional integration with TDD, grilling, planning, review, and similar general engineering skills
-
-## Status
-
-Initial implementation. PraxFlow is intentionally conservative: it preserves source traceability, surfaces uncertainty instead of guessing, and requires explicit human approval for high-impact design and release gates.
+See [docs/installation.md](docs/installation.md).
